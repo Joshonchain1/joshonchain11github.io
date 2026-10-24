@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blue Harbor | Banking Demo</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6f9;
+            color: #172b3a;
+        }
+
+        .demo-banner {
+            background: #fff0c2;
+            color: #684d00;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        header {
+            background: #004977;
+            color: white;
+            padding: 20px;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #70d5f5;
+        }
+
+        .user-name {
+            font-size: 13px;
+            border: 1px solid #ffffff70;
+            border-radius: 20px;
+            padding: 9px 12px;
+        }
+
+        nav {
+            max-width: 1000px;
+            margin: 20px auto 0;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        nav button {
+            padding: 11px 14px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+
+        nav button.active,
+        nav button:hover {
+            background: #ffffff25;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: auto;
+            padding: 25px 16px 100px;
+        }
+
+        .welcome {
+            margin-bottom: 22px;
+        }
+
+        .welcome h1 {
+            font-size: 26px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: #627584;
+            font-size: 14px;
+        }
+
+        .demo-label {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 7px 10px;
+            background: #fff0c2;
+            color: #684d00;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #dce5ec;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 17px;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #004977, #0081bb);
+            color: white;
+            border: none;
+            min-height: 210px;
+        }
+
+        .small-heading {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .balance {
+            font-size: clamp(30px, 6vw, 42px);
+            font-weight: bold;
+            margin: 15px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .account-number {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .btn {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-white {
+            background: white;
+            color: #004977;
+        }
+
+        .btn-blue {
+            background: #006da8;
+            color: white;
+        }
+
+        .btn-light {
+            background: #eaf5fb;
+            color: #004977;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #172b3a;
+            border: 1px solid #dce5ec;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 17px;
+        }
+
+        .section-heading h2,
+        .card h2 {
+            font-size: 17px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 17px;
+        }
+
+        .quick-action {
+            background: white;
+            border: 1px solid #dce5ec;
+            border-radius: 12px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+            color: #172b3a;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .quick-action span {
+            display: block;
+            font-size: 23px;
+            margin-bottom: 8px;
+        }
+
+        .beneficiary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #d9edf8;
+            color: #004977;
+            display: grid;
+            place-items: center;
+            font-weight: bold;
+        }
+
+        .beneficiary-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .muted {
+            color: #627584;
+            font-size: 12px;
+        }
+
+        .transaction {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 0;
+            border-bottom: 1px solid #edf1f4;
+        }
+
+        .transaction:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            background: #eaf5fb;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-size: 19px;
+        }
+
+        .transaction-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .transaction-title {
+            font-size: 13px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .transaction-date {
+            margin-top: 5px;
+            font-size: 11px;
+            color: #627584;
+        }
+
+        .amount {
+            font-size: 13px;
+            font-weight: bold;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .credit {
+            color: #087f5b;
+        }
+
+        .debit {
+            color: #172b3a;
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .field {
+            margin: 17px 0;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd8e0;
+            border-radius: 9px;
+            font-size: 15px;
+            background: white;
+        }
+
+        .notice {
+            padding: 13px;
+            background: #fff0c2;
+            color: #684d00;
+            border-radius: 9px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .transfer-result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            color: #627584;
+            font-size: 11px;
+            line-height: 1.6;
+            padding: 20px 0;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 17px 14px 10px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .user-name {
+                font-size: 11px;
+            }
+
+            nav {
+                margin-top: 15px;
+            }
+
+            nav button {
+                padding: 10px;
+            }
+
+            main {
+                padding: 20px 13px 100px;
+            }
+
+            .welcome h1 {
+                font-size: 23px;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .card {
+                padding: 17px;
+            }
+
+            .balance-card {
+                min-height: 210px;
+            }
+
+            .quick-actions {
+                gap: 7px;
+            }
+
+            .quick-action {
+                padding: 13px 4px;
+            }
+
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                border-top: 1px solid #dce5ec;
+                padding: 10px 4px;
+                padding-bottom: max(10px, env(safe-area-inset-bottom));
+                justify-content: space-around;
+                z-index: 10;
+            }
+
+            .mobile-nav button {
+                border: none;
+                background: transparent;
+                color: #627584;
+                font-size: 10px;
+                font-weight: bold;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .mobile-nav button span {
+                font-size: 20px;
+            }
+
+            .mobile-nav button.active {
+                color: #006da8;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="demo-banner">
+        PRACTICE DEMO ONLY — NOT A REAL BANK ACCOUNT
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">BLUE HARBOR<span>°</span></div>
+            <div class="user-name">● Mark Owens</div>
+        </div>
+
+        <nav>
+            <button class="active" data-panel="overview">Overview</button>
+            <button data-panel="transactions">Transactions</button>
+            <button data-panel="beneficiaries">Beneficiaries</button>
+            <button data-panel="transfers">Transfers</button>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="welcome">
+            <h1 id="page-title">Good morning, Mark</h1>
+            <p>Your  Account overview.</p>
+            
+        </div>
+
+        <!-- OVERVIEW -->
+
+        <section class="panel active" id="overview">
+
+            <div class="layout">
+
+                <div>
+
+                    <div class="card balance-card">
+                        <div class="small-heading">
+                             Available balance
+                        </div>
+
+                        <div class="balance" id="balance">
+                            $485,750.00
+                        </div>
+
+                        <div class="account-number">
+                         Checking · Ending in 2048
+                        </div>
+
+                        <div class="button-row">
+                            <button class="btn btn-white"
+                                onclick="showPanel('transfers')">
+                                + Practice transfer
+                            </button>
+
+                            <button class="btn btn-white"
+                                onclick="showPanel('transactions')">
+                                View activity
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <button class="quick-action"
+                            onclick="showPanel('transfers')">
+                            <span>↗️</span>
+                            Transfer
+                        </button>
+
+                        <button class="quick-action"
+                            onclick="showPanel('beneficiaries')">
+                            <span>♙</span>
+                            Beneficiaries
+                        </button>
+
+                        <button class="quick-action"
+                            onclick="showPanel('transactions')">
+                            <span>☷</span>
+                            Activity
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="section-heading">
+                            <h2>Recent activity</h2>
+
+                            <button class="btn btn-light"
+                                onclick="showPanel('transactions')">
+                                See all
+                            </button>
+                        </div>
+
+                        <div id="recent-transactions"></div>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="card">
+                        <div class="section-heading">
+                            <h2>Beneficiary</h2>
+
+                            <button class="btn btn-light"
+                                onclick="showPanel('beneficiaries')">
+                                Manage
+                            </button>
+                        </div>
+
+                        <div class="beneficiary">
+                            <div class="avatar">MO</div>
+
+                            <div>
+                                <div class="beneficiary-name">
+                                    Mark Owens
+                                </div>
+
+                                <div class="muted">
+                                    Practice beneficiary
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <button class="btn btn-blue"
+                            style="width:100%"
+                            onclick="showPanel('transfers')">
+                            Practice a transfer
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <h2>Account snapshot</h2>
+
+                        <br>
+
+                        <div class="muted">Account type</div>
+
+                        <p style="margin:6px 0 18px;font-weight:bold">
+                            Practice checking
+                        </p>
+
+                        <div class="muted">Routing number</div>
+
+                        <p style="margin:6px 0 18px;font-weight:bold">
+                            Not provided
+                        </p>
+
+                        <div class="muted">Account status</div>
+
+                        <p style="margin-top:6px;color:#087f5b;font-weight:bold">
+                            ● Demo mode
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TRANSACTIONS -->
+
+        <section class="panel" id="transactions">
+
+            <div class="card">
+                <div class="section-heading">
+                    <h2>Transaction history</h2>
+                </div>
+
+               
+
+                <div id="all-transactions"></div>
+            </div>
+
+        </section>
+
+        <!-- BENEFICIARIES -->
+
+        <section class="panel" id="beneficiaries">
+
+            <div class="card">
+
+                <div class="section-heading">
+                    <h2>Beneficiaries</h2>
+
+                    <button class="btn btn-blue"
+                        onclick="showAddBeneficiary()">
+                        + Add
+                    </button>
+                </div>
+
+                <div class="notice">
+                    Demo profiles only. Do not enter real banking
+                    credentials or sensitive financial information.
+                </div>
+
+                <div id="beneficiary-list"></div>
+
+                <form id="beneficiary-form"
+                    style="display:none"
+                    onsubmit="addBeneficiary(event)">
+
+                    <div class="field">
+                        <label for="new-name">
+                            Beneficiary display name
+                        </label>
+
+                        <input id="new-name"
+                            maxlength="60"
+                            placeholder="e.g. Alex Taylor"
+                            required>
+                    </div>
+
+                    <div class="field">
+                        <label for="new-note">
+                            Note
+                        </label>
+
+                        <input id="new-note"
+                            maxlength="80"
+                            placeholder="Practice profile">
+                    </div>
+
+                    <button class="btn btn-blue" type="submit">
+                        Save demo beneficiary
+                    </button>
+
+                    <button class="btn btn-outline"
+                        type="button"
+                        onclick="hideAddBeneficiary()">
+                        Cancel
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+        <!-- TRANSFERS -->
+
+        <section class="panel" id="transfers">
+
+            <div class="card">
+
+                <h2>Practice transfer</h2>
+
+                <div class="notice">
+                    <strong>Simulation only.</strong>
+                    This form does not connect to a bank or send money.
+                    Its confirmation is not proof of payment.
+                </div>
+
+                <form id="transfer-form"
+                    onsubmit="simulateTransfer(event)">
+
+                    <div class="field">
+                        <label for="recipient">
+                            Demo beneficiary
+                        </label>
+
+                        <select id="recipient"></select>
+                    </div>
+
+                    <div class="field">
+                        <label for="amount">
+                            Amount in USD
+                        </label>
+
+                        <input id="amount"
+                            type="number"
+                            min="1"
+                            max="1000000"
+                            step="0.01"
+                            placeholder="340000.00"
+                            required>
+                    </div>
+
+                    <div class="field">
+                        <label for="memo">
+                            Description
+                        </label>
+
+                        <input id="memo"
+                            maxlength="100"
+                            placeholder="Practice transaction">
+                    </div>
+
+                    <button class="btn btn-blue" type="submit">
+                        Simulate transfer
+                    </button>
+
+                </form>
+
+                <div class="transfer-result"
+                    id="transfer-result"></div>
+
+            </div>
+
+        </section>
+
+        
+
+    </main>
+
+    <!-- MOBILE NAVIGATION -->
+
+    <div class="mobile-nav">
+
+        <button class="active" data-panel="overview">
+            <span>⌂</span>
+            Home
+        </button>
+
+        <button data-panel="transactions">
+            <span>☷</span>
+            Activity
+        </button>
+
+        <button data-panel="beneficiaries">
+            <span>♙</span>
+            People
+        </button>
+
+        <button data-panel="transfers">
+            <span>↗️</span>
+            Transfer
+        </button>
+
+    </div>
+
+    <script>
+
+        // SAMPLE TRANSACTIONS
+
+        let transactions = [
+            {
+                title: "Daniella inheritance disbursement",
+                date: "Oct 20, 2026 · ",
+                amount: 340000,
+                type: "credit",
+                icon: "↙️"
+            },
+            {
+                title: "Daniella inheritance disbursement",
+                date: "Oct 18, 2026 · ",
+                amount: 125000,
+                type: "credit",
+                icon: "+"
+            },
+            {
+                title: "Daniella inheritance disbursement",
+                date: "Oct 15, 2026 · S",
+                amount: -2450,
+                type: "debit",
+                icon: "↗️"
+            },
+            {
+                title: "Direct deposit",
+                date: "Oct 12, 2026 · SAMPLE",
+                amount: 23100,
+                type: "credit",
+                icon: "+"
+            }
+        ];
+
+        let balance = 485750;
+
+        let beneficiaries = [
+            {
+                name: "Mark Owens",
+                note: "Primary practice beneficiary"
+            }
+        ];
+
+        // FORMAT DOLLAR AMOUNTS
+
+        function formatMoney(amount) {
+            let sign = amount < 0 ? "−" : "";
+
+            return sign + "$" +
+                Math.abs(amount).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+        }
+
+        // SAFELY DISPLAY USER-ENTERED TEXT
+
+        function escapeHTML(text) {
+            return String(text).replace(/[&<>"']/g, function(char) {
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                }[char];
+            });
+        }
+
+        // CREATE A TRANSACTION ROW
+
+        function transactionHTML(transaction) {
+            let sign = transaction.amount > 0 ? "+" : "";
+
+            return `
+                <div class="transaction">
+
+                    <div class="transaction-icon">
+                        ${transaction.icon}
+                    </div>
+
+                    <div class="transaction-info">
+
+                        <div class="transaction-title">
+                            ${escapeHTML(transaction.title)}
+                        </div>
+
+                        <div class="transaction-date">
+                            ${escapeHTML(transaction.date)}
+                        </div>
+
+                    </div>
+
+                    <div class="amount ${transaction.type}">
+                        ${sign}${formatMoney(transaction.amount)}
+                    </div>
+
+                </div>
+            `;
+        }
+
+        // DISPLAY TRANSACTIONS
+
+        function renderTransactions() {
+
+            document.getElementById("recent-transactions").innerHTML =
+                transactions.slice(0, 3)
+                    .map(transactionHTML)
+                    .join("");
+
+            document.getElementById("all-transactions").innerHTML =
+                transactions.map(transactionHTML).join("");
+        }
+
+        // DISPLAY BENEFICIARIES
+
+        function renderBeneficiaries() {
+
+            document.getElementById("beneficiary-list").innerHTML =
+                beneficiaries.map(function(beneficiary, index) {
+
+                    let initials = beneficiary.name
+                        .split(/\s+/)
+                        .map(function(part) {
+                            return part[0];
+                        })
+                        .slice(0, 2)
+                        .join("")
+                        .toUpperCase();
+
+                    return `
+                        <div class="transaction">
+
+                            <div class="avatar">
+                                ${escapeHTML(initials)}
+                            </div>
+
+                            <div class="transaction-info">
+
+                                <div class="beneficiary-name">
+                                    ${escapeHTML(beneficiary.name)}
+                                </div>
+
+                                <div class="muted">
+                                    ${escapeHTML(
+                                        beneficiary.note || "Demo profile"
+                                    )}
+                                </div>
+
+                            </div>
+
+                            <button class="btn btn-light"
+                                onclick="selectBeneficiary(${index})">
+                                Use
+                            </button>
+
+                        </div>
+                    `;
+
+                }).join("");
+
+            document.getElementById("recipient").innerHTML =
+                beneficiaries.map(function(beneficiary) {
+                    return `
+                        <option>${escapeHTML(beneficiary.name)}</option>
+                    `;
+                }).join("");
+        }
+
+        // CHANGE BETWEEN SECTIONS
+
+        function showPanel(panelID) {
+
+            document.querySelectorAll(".panel").forEach(function(panel) {
+                panel.classList.toggle(
+                    "active",
+                    panel.id === panelID
+                );
+            });
+
+            document.querySelectorAll("[data-panel]").forEach(function(button) {
+                button.classList.toggle(
+                    "active",
+                    button.dataset.panel === panelID
+                );
+            });
+
+            let titles = {
+                overview: "Good morning, Mark",
+                transactions: "Transaction history",
+                beneficiaries: "Manage beneficiaries",
+                transfers: "Practice transfer"
+            };
+
+            document.getElementById("page-title").textContent =
+                titles[panelID];
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        document.querySelectorAll("[data-panel]").forEach(function(button) {
+
+            button.addEventListener("click", function() {
+                showPanel(button.dataset.panel);
+            });
+
+        });
+
+        // ADD A DEMO BENEFICIARY
+
+        function showAddBeneficiary() {
+            document.getElementById("beneficiary-form").style.display = "block";
+        }
+
+        function hideAddBeneficiary() {
+            document.getElementById("beneficiary-form").style.display = "none";
+        }
+
+        function addBeneficiary(event) {
+
+            event.preventDefault();
+
+            let name = document.getElementById("new-name").value.trim();
+
+            let note = document.getElementById("new-note").value.trim();
+
+            if (!name) {
+                return;
+            }
+
+            beneficiaries.push({
+                name: name,
+                note: note || "Practice profile"
+            });
+
+            renderBeneficiaries();
+
+            event.target.reset();
+
+            hideAddBeneficiary();
+
+            alert("Demo beneficiary saved on this page.");
+        }
+
+        // SELECT A BENEFICIARY
+
+        function selectBeneficiary(index) {
+
+            document.getElementById("recipient").selectedIndex = index;
+
+            showPanel("transfers");
+        }
+
+        // SIMULATE A TRANSFER
+
+        function simulateTransfer(event) {
+
+            event.preventDefault();
+
+            let amount = Number(
+                document.getElementById("amount").value
+            );
+
+            let recipient =
+                document.getElementById("recipient").value;
+
+            let memo =
+                document.getElementById("memo").value.trim()
+                || "Practice transfer";
+
+            if (!Number.isFinite(amount) || amount <= 0) {
+
+                alert("Please enter a valid practice amount.");
+
+                return;
+            }
+
+            let transaction = {
+                title: "Simulated transfer to " + recipient,
+                date: new Date().toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric"
+                }) + " · SIMULATED",
+                amount: -amount,
+                type: "debit",
+                icon: "↗️"
+            };
+
+            transactions.unshift(transaction);
+
+            balance -= amount;
+
+            document.getElementById("balance").textContent =
+                formatMoney(balance);
+
+            renderTransactions();
+
+            document.getElementById("transfer-result").style.display =
+                "block";
+
+            document.getElementById("transfer-result").innerHTML = `
+                <div class="notice">
+
+                    <strong>
+                        Practice simulation complete — NOT A REAL PAYMENT
+                    </strong>
+
+                    <br><br>
+
+                    Demo amount: ${formatMoney(amount)}
+
+                    <br>
+
+                    Demo beneficiary: ${escapeHTML(recipient)}
+
+                    <br>
+
+                    Description: ${escapeHTML(memo)}
+
+                    <br><br>
+
+                    No money was sent and no bank was contacted.
+
+                </div>
+            `;
+
+            event.target.reset();
+
+            alert("Practice simulation complete. No real payment was made.");
+        }
+
+        // INITIAL PAGE SETUP
+
+        renderTransactions();
+
+        renderBeneficiaries();
+
+    </script>
+
+</body>
+</html>
